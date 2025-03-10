@@ -47,8 +47,7 @@ bus.on("applicationStarted", function setupServer() {
 
 	bus.triggerRegisterConnectModules(app);
 
-	// Generate random port between 3000 -> 6000 until we package next-swarm as docker container
-	var port = Math.floor(3000 * (Math.random() + 1));
+	var port = 3000;
 	var connectServerUri = "http://"+publicIpAddress+":"+port;
 
 	// Listen
