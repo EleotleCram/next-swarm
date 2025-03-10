@@ -27,6 +27,25 @@ var server = {
 	destroy: function(){},
 };
 
+var port = 3000;
+
+bus.on("registerCommandlineArguments", function (parser) {
+	parser.addArgument(
+		['--port'],
+		{
+			dest: 'port',
+			metavar: 'PORT',
+			type: 'int',
+			help: 'Next-Swarm http server listen port.'
+		}
+	);
+});
+bus.on("commandlineArgumentsParsed", function (args) {
+	if(args.port) {
+		port = args.port;
+	}
+});
+
 var os = require('os');
 var publicIpAddress = "127.0.0.1";
 bus.on("applicationStarted", function determinePublicAddress() {
@@ -47,8 +66,6 @@ bus.on("applicationStarted", function setupServer() {
 
 	bus.triggerRegisterConnectModules(app);
 
-	// Generate random port between 3000 -> 6000 until we package next-swarm as docker container
-	var port = Math.floor(3000 * (Math.random() + 1));
 	var connectServerUri = "http://"+publicIpAddress+":"+port;
 
 	// Listen
